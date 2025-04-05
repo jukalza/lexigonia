@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Search</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        input { padding: 10px; width: 300px; }
+        button { padding: 10px; cursor: pointer; }
+        #results { margin-top: 20px; }
+        .book { border: 1px solid #ddd; padding: 10px; margin: 10px; display: inline-block; width: 300px; }
+        .book img { max-width: 100px; }
+    </style>
+</head>
+<body>
+    <h1>Book Search</h1>
+    <input type="text" id="searchInput" placeholder="Enter book title...">
+    <button onclick="searchBooks()">Search</button>
+    
+    <div id="results"></div>
+
+    <script>
+        async function searchBooks() {
+            const searchQuery = document.getElementById("searchInput").value;
+            if (!searchQuery) return alert("Please enter a book title.");
+
+            const response = await fetch(`http://localhost:3001/search?q=${encodeURIComponent(searchQuery)}`);
+            const data = await response.json();
+
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = ""; // Clear previous results
+
+            if (!data.items) {
+                resultsDiv.innerHTML = "<p>No results found.</p>";
+                return;
+            }
+
+            data.items.forEach(book => {
+                const info = book.volumeInfo;
+                const title = info.title || "No Title";
+                const authors = info.authors ? info.authors.join(", ") : "Unknown Author";
+                const thumbnail = info.imageLinks ? info.imageLinks.thumbnail : "https://via.placeholder.com/100";
+
+                const bookDiv = document.createElement("div");
+                bookDiv.classList.add("book");
+                bookDiv.innerHTML = `
+                    <img src="${thumbnail}" alt="Book cover">
+                    <h3>${title}</h3>
+                    <p><strong>Author(s):</strong> ${authors}</p>
+                `;
+                resultsDiv.appendChild(bookDiv);
+            });
+        }
+    </script>
+</body>
+</html>
