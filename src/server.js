@@ -14,12 +14,14 @@ app.use(cors());
 app.get('/search', (req, res) => {
     console.log("Query parameters:", req.query);
     const searchQuery = req.query.q;
+    const startIndex = req.query.startIndex || 0;
+    const maxResults = req.query.maxResults || 10;
 
     if (!searchQuery) {
         return res.status(400).send({error: "Query parameter is required!"});
     }
 
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchQuery)}&key=${GOOGLE_BOOKS_API_KEY}&maxResults=10`;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(searchQuery)}&startIndex=${startIndex}&maxResults=${maxResults}&key=${GOOGLE_BOOKS_API_KEY}`;
 
 
     https.get(url, (apiRes) => {
