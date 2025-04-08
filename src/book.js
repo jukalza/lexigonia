@@ -20,7 +20,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById("book-title").textContent = info.title || "No Title";
         document.getElementById("book-authors").textContent = `by ${info.authors?.join(", ") || "Unknown Author"}`;
         document.getElementById("book-thumbnail").src = info.imageLinks?.thumbnail || "./images/placeholder_img.png";
-        document.getElementById("book-description").textContent = info.description || "No description available.";
+        // document.getElementById("book-description").textContent = info.description || "No description available.";
+        document.getElementById("book-description").innerHTML = `<strong>Description:</strong> ${info.description || "No description available."}`;
         document.getElementById("book-published").textContent = info.publishedDate || "Unknown";
         document.getElementById("book-categories").textContent = info.categories?.join(", ") || "N/A";
         document.getElementById("book-rating").textContent = info.averageRating ?? "Not rated";
