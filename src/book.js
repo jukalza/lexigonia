@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const urlParams = new URLSearchParams(window.location.search);
     const bookId = urlParams.get("id");
+    const q = urlParams.get("q");
+    const page = urlParams.get("page");
 
     if (!bookId) {
         container.textContent = "Book ID is missing.";
@@ -20,8 +22,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById("book-title").textContent = info.title || "No Title";
         document.getElementById("book-authors").textContent = `by ${info.authors?.join(", ") || "Unknown Author"}`;
         document.getElementById("book-thumbnail").src = info.imageLinks?.thumbnail || "./images/placeholder_img.png";
-        // document.getElementById("book-description").textContent = info.description || "No description available.";
-        document.getElementById("book-description").innerHTML = `<strong>Description:</strong> ${info.description || "No description available."}`;
+        
+        const descriptionElement = document.getElementById("book-description");
+        descriptionElement.innerHTML = info.description || "<p>No description available.</p>";
+
         document.getElementById("book-published").textContent = info.publishedDate || "Unknown";
         document.getElementById("book-categories").textContent = info.categories?.join(", ") || "N/A";
         document.getElementById("book-rating").textContent = info.averageRating ?? "Not rated";
@@ -34,6 +38,23 @@ document.addEventListener("DOMContentLoaded", async function () {
             preview.target = "_blank";
             preview.textContent = "Preview this book";
             document.getElementById("book-preview").appendChild(preview);
+        }
+
+        // Back link setup
+        const backLink = document.getElementById("back-link");
+        if (backLink) {
+            const q = urlParams.get("q");
+            const page = urlParams.get("page");
+
+            console.log("q:", q, "page:", page);
+
+            if (q && page) {
+                backLink.href = `home.html?q=${encodeURIComponent(q)}&page=${page}`;
+            } else if (document.referrer && document.referrer.includes("home.html")) {
+                backLink.href = document.referrer;
+            } else {
+                backLink.href = "home.html";
+            }
         }
 
 

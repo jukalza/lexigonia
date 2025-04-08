@@ -11,9 +11,17 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentQuery = "";
     const resultsPerPage = 12;
 
-    // Variables to store last successful state
-    let lastQuery = ""; // To store the last query
-    let lastPage = 1;   // To store the last page number
+    // to store last successful state
+    let lastQuery = ""; // store the last query
+    let lastPage = 1;   // store the last page number
+    
+
+    function updateURL(query, page) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("q", query);
+        url.searchParams.set("page", page);
+        window.history.pushState({}, "", url);
+    }
 
     searchBtn.addEventListener("click", () => {
         currentPage = 1;
@@ -21,7 +29,16 @@ document.addEventListener("DOMContentLoaded", function () {
         searchBooks(currentQuery, currentPage);
     });
 
+    document.getElementById("searchInput").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Optional: prevents form submission if inside a form
+            searchBtn.click(); // Simulate search button click
+        }
+    });
+
     async function searchBooks(query, page) {
+
+        updateURL(query, page);
 
         const startIndex = (page - 1) * resultsPerPage;
 
@@ -107,8 +124,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 const bookDiv = document.createElement("div");
                 bookDiv.classList.add("book");
 
+                // bookDiv.addEventListener("click", () => {
+                //     window.location.href = `book.html?id=${book.id}`;
+                // });
                 bookDiv.addEventListener("click", () => {
-                    window.location.href = `book.html?id=${book.id}`;
+                    const queryParams = new URLSearchParams({
+                        id: book.id,
+                        q: currentQuery,
+                        page: currentPage
+                    });
+                    window.location.href = `book.html?${queryParams.toString()}`;
                 });
                 
                 // create image element
@@ -205,6 +230,18 @@ document.addEventListener("DOMContentLoaded", function () {
         } finally {
             loading.style.display = "none";
         }
+    }
+
+    // handle query from URL on page load
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryParam = urlParams.get("q");
+    const pageParam = parseInt(urlParams.get("page"), 10) || 1;
+
+    if (queryParam) {
+        document.getElementById("searchInput").value = queryParam;
+        currentQuery = queryParam;
+        currentPage = pageParam;
+        searchBooks(queryParam, pageParam);
     }
 
 
