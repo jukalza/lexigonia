@@ -1,15 +1,17 @@
 document.addEventListener("DOMContentLoaded", async function () {
     const container = document.getElementById("book-detail-container");
+    const loading = document.getElementById("loading");
 
     const urlParams = new URLSearchParams(window.location.search);
     const bookId = urlParams.get("id");
-    const q = urlParams.get("q");
-    const page = urlParams.get("page");
+    
 
     if (!bookId) {
         container.textContent = "Book ID is missing.";
         return;
     }
+
+    loading.style.display = "block";
 
     try {
         const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
@@ -62,6 +64,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         container.innerHTML = "<p>Something went wrong. Could not load book details.</p>";
         console.error(err);
     }
+
+    loading.style.display = "none";
 
 
 });
