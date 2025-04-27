@@ -84,9 +84,10 @@ app.get('/test', (req, res) => {
     res.send("Server is working!");
 });
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// // Start the server
+// app.listen(PORT, () => {
+//     console.log(`Server is running on http://localhost:${PORT}`);
+// });
 
+module.exports = app;
 
