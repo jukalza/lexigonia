@@ -1,4 +1,20 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+import { loadNavbar } from "./navbar.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCRVOC-CPPY6gJ0M1VPrqonMLUfvoCmeOQ",
+    authDomain: "lexigonia.firebaseapp.com",
+    projectId: "lexigonia",
+    appId: "1:944448872367:web:77a6b3f228cb0f4243d95a"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
 document.addEventListener("DOMContentLoaded", function () {
+
+    loadNavbar();
 
     const searchBtn = document.getElementById("searchBtn");
     const searchSection = document.getElementById("search-section");
@@ -145,10 +161,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 // create title element
                 const h3 = document.createElement("h3");
                 h3.textContent = title;
+                h3.classList.add("book-title");
                 bookDiv.appendChild(h3);
             
                 // create authors paragraph
                 const p = document.createElement("p");
+                p.classList.add("book-author");
                 const strong = document.createElement("strong");
                 strong.textContent = "Author(s): ";
                 p.appendChild(strong);
@@ -244,6 +262,36 @@ document.addEventListener("DOMContentLoaded", function () {
         searchBooks(queryParam, pageParam);
     }
 
+    // onAuthStateChanged(auth, (user) => {
+    //     const dashboardLink = document.getElementById("dashboard-link");
+    //     const authActions = document.getElementById("auth-actions");
+
+    //     if (user) {
+    //       // Authenticated: allow dashboard + logout
+    //       dashboardLink.href = "dashboard.html";
+      
+    //       authActions.innerHTML = `
+    //         <button id="logout-btn">Logout</button>
+    //       `;
+      
+    //       document.getElementById("logout-btn").addEventListener("click", () => {
+    //         signOut(auth).then(() => {
+    //           window.location.href = "auth.html";
+    //         });
+    //       });
+      
+    //     } else {
+    //       // Not authenticated: redirect dashboard & show login
+    //       dashboardLink.addEventListener("click", (e) => {
+    //         e.preventDefault();
+    //         window.location.href = "auth.html";
+    //       });
+      
+    //       authActions.innerHTML = `
+    //         <a href="auth.html" class="nav-link">Login</a>
+    //       `;
+    //     }
+    //   });
 
 });
 

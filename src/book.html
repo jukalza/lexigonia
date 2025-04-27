@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <title>Lexigonia - Book Details</title>
     <link rel="stylesheet" href="book.css">
+    <link rel="stylesheet" href="navbar.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="navbar.js"></script>
 </head>
 <body>
+
+    <header></header>
+
     <div id="book-detail-container">
 
         <div id="loading" style="display: none;">
@@ -13,10 +19,24 @@
         </div>
 
         <div class="book-detail">
+
+            <div class="book-header">
+                <img id="book-thumbnail" src="" alt="Book cover">
+            
+                <div class="collection-dropdown">
+                  <button id="collection-button">Add to Collection</button>
+                  <div id="collection-options" class="dropdown-content">
+                    <button class="collection-option" data-type="have_read">Have Read</button>
+                    <button class="collection-option" data-type="currently_reading">Currently Reading</button>
+                    <button class="collection-option" data-type="want_to_read">Want to Read</button>
+                  </div>
+                </div>
+            </div>
+
+
           <h1 id="book-title"></h1>
           <h3 id="book-authors"></h3>
-          <img id="book-thumbnail" src="" alt="Book cover">
-      
+
           <p>
             <span id="book-description"></span>
           </p>
@@ -47,6 +67,23 @@
         </div>
     </div>
 
-    <script src="book.js"></script>
+    <div id="review-section">
+        <h2>Rate and Review</h2>
+        <form id="review-form">
+            <label for="rating">Rating (1-5):</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" required>
+
+            <label for="review-text">Review (Optional):</label>
+            <textarea id="review-text" name="review-text"></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="reviews">
+            <h3>Reviews</h3>
+        </div>
+    </div>
+
+    <script type="module" src="book.js"></script>
 </body>
 </html>

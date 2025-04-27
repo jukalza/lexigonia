@@ -7,6 +7,9 @@ import {
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+
 const firebaseApp = initializeApp({
     apiKey: "AIzaSyCRVOC-CPPY6gJ0M1VPrqonMLUfvoCmeOQ",
     authDomain: "lexigonia.firebaseapp.com",
@@ -18,41 +21,25 @@ const firebaseApp = initializeApp({
 });
 
 const auth = getAuth(firebaseApp);
-connectAuthEmulator(auth, "http://localhost:9099");
+const db = getFirestore(firebaseApp);
+// connectAuthEmulator(auth, "http://localhost:9099");
 
+export { auth };
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const status = document.getElementById("status");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
     
     const signupBtn = document.getElementById("signupBtn");
     const loginBtn = document.getElementById("loginBtn");
-    const logoutBtn = document.getElementById("logoutBtn");
 
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
             console.log("User is logged in: " + user.email);
-            status.textContent = `Logged in as: ${user.email}`;
-
-            // show logout button, hide login and signup buttons
-            logoutBtn.style.display = "block";
-            loginBtn.style.display = "none";
-            signupBtn.style.display = "none";
-
-            // later dev: show user dashboard, search, or user collections
         } else {
             console.log("Not logged in");
-            status.textContent = "Not logged in";
-
-            // hide logout button, show signup and login buttons
-            logoutBtn.style.display = "none";
-            loginBtn.style.display = "block";
-            signupBtn.style.display = "block";
-
-            // later dev: show login form
         }
 
     });
@@ -66,11 +53,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const userCred = await createUserWithEmailAndPassword(auth, emailValue, passwordValue);
-            console.log("Signed up: " + userCred.user.email);
-            alert("Account created successfully!");
+            const user = userCred.user;
+
+            console.log("Signed up: " + user.email);
+
+            const { value: username } = await Swal.fire({
+                title: "Choose a Username",
+                input: "text",
+                inputLabel: "Username",
+                inputPlaceholder: "Enter your username",
+                showCancelButton: false,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return "You need to write a username!";
+                    } else if (value.length < 3) {
+                        return "Username must be at least 3 characters!";
+                    } else if (value.length > 10) {
+                        return "Username must be less than 10 characters!";
+                    }
+                }
+            });
+
+            // await fetch("http://localhost:3001/user", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json"
+            //     },
+            //     body: JSON.stringify({
+            //     firebase_uid: user.uid,
+            //     name: user.displayName || "No Name",
+            //     email: user.email
+            //     })
+            // });
+
+            await setDoc(doc(db, "users", user.uid), {
+                username: username,
+                email: user.email,
+                uid: user.uid,
+                created_at: new Date()
+            });
+
+            Swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: "Account created",
+                showConfirmButton: false,
+                timer: 1500,
+                didOpen: () => {
+                    Swal.showLoading();
+                  },
+                }).then(() => {
+                  window.location.href = "home.html";
+                });
         } catch (error) {
             console.log("Signup error: " + error.message);
-            alert(error.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: errorMessages(error)
+            });
         }
     });
 
@@ -83,26 +124,46 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const userCred = await signInWithEmailAndPassword(auth, emailValue, passwordValue);
             console.log("Logged in: " + userCred.user.email);
-            alert("Login successful!");
+            Swal.fire({
+                icon: "success",
+                title: "Login successful!",
+                showConfirmButton: false,
+                timer: 1500,
+                didOpen: () => {
+                    Swal.showLoading();
+                  },
+                }).then(() => {
+                  window.location.href = "home.html";
+                });
         } catch (error) {
             console.log("Login error: " + error.message);
-            alert(error.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: errorMessages(error)
+            });
         }
     });
 
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", async () => {
-        
-            try {
-                await auth.signOut();
-                console.log("Logged out");
-                alert("Logged out!");
-            } catch (error) {
-                console.log("Logout error: " + error.message);
-                alert(error.message);
-            }
-        });
-    }
-
 });
+
+
+function errorMessages (error) {
+    const errorCode = error.code;
+
+    const messages = {
+        "auth/invalid-email" : "Email address is invalid.",
+        "auth/invalid-password" : "Invalid Password. Must be at least 6 characters.",
+        "auth/user-not-found" : "No account found with that email.",
+        "auth/wrong-password" : "Incorrect Password. Try again.",
+        "auth/weak-password": "Password should be at least 6 characters.",
+        "auth/email-already-in-use" : "An account already exists with this email.",
+        "auth/missing-password" : "Please enter a password.",
+        "auth/missing-email" : "Please enter an email.",
+        "auth/password-does-not-meet-requirements" : "Password must be at least 6 characters, contain at least 1 Uppercase, 1 lowercase and 1 number! ",
+        "auth/invalid-credential" : "The login info does not match any account."
+    };
+
+    return messages[errorCode] || "Something went wrong. Try again.";
+}
 

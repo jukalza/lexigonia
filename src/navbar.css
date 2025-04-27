@@ -1,0 +1,122 @@
+.navbar {
+    background: rgba(20, 40, 70, 0.8);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+  
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-logo {
+    text-decoration: none;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-img {
+    width: 80px; 
+    height: 80px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.1);
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white; 
+    transition: color 0.3s ease;
+    transition: color 0.3s ease;
+}
+
+.logo-text:hover {
+    color: #4ca1af;
+}
+
+.auth-btn {
+    padding: 8px 16px;
+    background-color: #13406c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.auth-btn:hover {
+    background-color: #4ca1af;
+}
+  
+.nav-menu {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    align-items: center;
+}
+  
+.nav-menu a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-menu a:hover {
+    color: #4ca1af;
+}
+  
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+  
+.nav-icon {
+    width: 28px;
+    height: 28px;
+    filter: invert(1);
+    cursor: pointer;
+}
+  
+@media (max-width: 768px) {
+    .nav-toggle {
+      display: block;
+    }
+  
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        background: rgba(20, 40, 70, 0.95);
+        position: absolute;
+        right: 1rem;
+        top: 70px;
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        z-index: 999;
+    }
+  
+    .nav-menu.show {
+      display: flex;
+    }
+}

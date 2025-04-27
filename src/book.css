@@ -1,8 +1,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
+    background-color: #27374D;
     margin: 0;
-    padding: 20px;
     color: #333;
 }
 
@@ -13,6 +12,79 @@ body {
     /* color: #555; */
 }
 
+.collection-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-top: 20px;
+}
+  
+#collection-button {
+    padding: 12px 18px;
+    font-size: 16px;
+    background-color: #526D82;
+    color: #DDE6ED;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#collection-button:hover {
+    background-color: #3e5870;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background-color: #DDE6ED;
+    min-width: 220px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    z-index: 10;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease forwards;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+  
+.collection-option {
+    padding: 12px 18px;
+    width: 100%;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 15px;
+    color: #27374D;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.collection-option:hover {
+    background-color: #9DB2BF;
+    color: #ffffff;
+}
+  
+.collection-dropdown:hover .dropdown-content,
+.collection-dropdown:focus-within .dropdown-content {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* fade animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#book-detail-container {
+    padding: 20px;
+}
+
 .book-detail {
     max-width: 800px;
     margin: 40px auto;
@@ -21,6 +93,7 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     padding: 30px;
     line-height: 1.6;
+    color: #27374D;
 }
 
 .book-detail h1 {
@@ -47,6 +120,23 @@ body {
 .book-detail p {
     margin-bottom: 12px;
 }
+
+.book-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.book-header img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
 
 .info-row {
     display: flex;
@@ -78,4 +168,150 @@ a:hover {
 .back-link {
     margin-top: 30px;
     display: inline-block;
+}
+
+/* Review Section */
+#review-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 20px auto;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+#review-section:hover {
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+#review-section h2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+#review-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+#review-form label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+#review-form input, #review-form textarea {
+    padding: 14px;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    background-color: #f9fafb;
+}
+
+#review-form input:focus, #review-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #ffffff;
+}
+
+#review-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    width: 200px;
+    margin: 0 auto;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#review-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Reviews Container */
+#reviews {
+    margin-top: 50px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.review {
+    background-color: #f0f4f8;
+    padding: 20px;
+    border-radius: 20px 20px 20px 5px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    max-width: 600px;
+    align-self: flex-start;
+    transition: background-color 0.3s ease;
+}
+
+.review:hover {
+    background-color: #e2ebf5;
+}
+
+.review::before {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: 20px;
+    width: 20px;
+    height: 20px;
+    background-color: #f0f4f8;
+    transform: rotate(45deg);
+    box-shadow: -3px 3px 5px rgba(0, 0, 0, 0.05);
+}
+
+.review h4 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: #27374D;
+}
+
+.review .rating {
+    color: #f7c948;
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.review p {
+    margin: 10px 0 5px 0;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.review small {
+    color: #999;
+    font-size: 12px;
+}
+
+#reviews .review.right {
+    align-self: flex-end;
+    background-color: #d4e8f7;
+    border-radius: 20px 20px 5px 20px;
+}
+
+#reviews .review.right::before {
+    left: auto;
+    right: -10px;
+    background-color: #d4e8f7;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.05);
 }
