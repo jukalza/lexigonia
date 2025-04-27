@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const https = require('https');
 const { db } = require("./firebaseAdmin");
+const path = require('path');
 
 
 const app = express();
@@ -12,6 +13,11 @@ const GOOGLE_BOOKS_API_KEY = process.env.GOOGLE_BOOKS_API_KEY;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'home.html'));
+});
 
 app.get('/search', (req, res) => {
     console.log("Query parameters:", req.query);
@@ -84,10 +90,9 @@ app.get('/test', (req, res) => {
     res.send("Server is working!");
 });
 
-// // Start the server
-// app.listen(PORT, () => {
-//     console.log(`Server is running on http://localhost:${PORT}`);
-// });
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
 
-module.exports = app;
 

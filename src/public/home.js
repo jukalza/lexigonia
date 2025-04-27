@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
             //     resultsDiv.removeChild(resultsDiv.firstChild);
             // }
 
-            const response = await fetch(`http://localhost:3001/search?q=${encodeURIComponent(query)}&startIndex=${startIndex}&maxResults=${resultsPerPage}`);
+            const response = await fetch(`/search?q=${encodeURIComponent(query)}&startIndex=${startIndex}&maxResults=${resultsPerPage}`);
 
             // check for HTTP response status
             if (!response.ok) {
