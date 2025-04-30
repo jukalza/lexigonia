@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 
+
 app.get('/search', (req, res) => {
     console.log("Query parameters:", req.query);
     const searchQuery = req.query.q;

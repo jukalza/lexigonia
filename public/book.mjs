@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import { getFirestore, collection, doc, setDoc, query, where, getDocs, getDoc, addDoc, orderBy} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-import { loadNavbar } from "./navbar.js";
+import { loadNavbar } from "./navbar.mjs";
 
 
 const firebaseConfig = {
@@ -85,6 +85,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         onAuthStateChanged(auth, (user) => {
 
             const collectionButtons = document.querySelectorAll('.collection-option');
+            
+            const loginMessage = document.getElementById("login-message");
 
             if (!user) {
                 collectionButtons.forEach(btn => {
@@ -93,10 +95,16 @@ document.addEventListener("DOMContentLoaded", async function () {
                 });
                 // hide review section when not logged in
                 reviewSection.style.display = "none";
+                // display login message
+                loginMessage.style.display = "block";
                 return;
             }
 
+
+
             reviewSection.style.display = "block";
+
+            loginMessage.style.display = "none";
 
             const types = ["want_to_read", "have_read", "currently_reading"];
 

@@ -12,6 +12,13 @@ body {
     /* color: #555; */
 }
 
+.login-message {
+    text-align: center;
+    color: #fff;
+    margin-top: 20px;
+    display: none;
+}
+
 .collection-dropdown {
     position: relative;
     display: inline-block;

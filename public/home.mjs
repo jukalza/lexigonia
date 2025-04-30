@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import { loadNavbar } from "./navbar.js";
+import { loadNavbar } from "./navbar.mjs";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCRVOC-CPPY6gJ0M1VPrqonMLUfvoCmeOQ",
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("searchInput").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
-            event.preventDefault(); // Optional: prevents form submission if inside a form
+            event.preventDefault(); 
             searchBtn.click(); // Simulate search button click
         }
     });

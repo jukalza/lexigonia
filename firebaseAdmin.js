@@ -1,5 +1,5 @@
 const admin = require("firebase-admin");
-const serviceAccount = require("../lexigonia-firebase-adminsdk-fbsvc-affb189448.json");
+const serviceAccount = require("./lexigonia-firebase-adminsdk-fbsvc-affb189448.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
