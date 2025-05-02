@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("searchInput").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             event.preventDefault(); 
-            searchBtn.click(); // Simulate search button click
+            searchBtn.click(); // search button click
         }
     });
 
